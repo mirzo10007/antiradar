@@ -1,0 +1,4 @@
+{
+  "comment": "O'rtacha tezlik zonalari. start/end = [kenglik, uzunlik], limit = km/soat, length = metr (0 bo'lsa to'g'ri chiziq olinadi). Bu yerga tasdiqlangan zonalarni qo'shing.",
+  "zones": []
+}
