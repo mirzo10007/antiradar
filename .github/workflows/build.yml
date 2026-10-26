@@ -4,6 +4,9 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     # Bu obrazda Android SDK oldindan o'rnatilgan
@@ -17,8 +20,19 @@ jobs:
       - name: Testlar
         run: ./gradlew :core:test
       - name: APK yig'ish
-        run: ./gradlew :app:assembleDebug
+        run: |
+          ./gradlew :app:assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/antiradar.apk
       - uses: actions/upload-artifact@v4
         with:
           name: antiradar-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Telefon uchun yuklab olish havolasi (Release)
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Antiradar (oxirgi versiya)
+          prerelease: false
+          make_latest: true
+          files: app/build/outputs/apk/debug/antiradar.apk
